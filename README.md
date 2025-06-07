@@ -77,9 +77,9 @@ The target variable is transformed into its equivalent logarithmic form <br/>
 y = np.log1p(y)
 ```
 #### Before applying log <br/>
-![image](https://github.com/user-attachments/assets/ec31b157-b33c-4c48-8b67-e65232ab9348)
+![image](https://github.com/user-attachments/assets/080617c9-5746-42ad-a50f-c69a1d5204f3)
 
 #### After Applying log <br/> <br/> <br/>
-![image](https://github.com/user-attachments/assets/080617c9-5746-42ad-a50f-c69a1d5204f3)
+![image](https://github.com/user-attachments/assets/ec31b157-b33c-4c48-8b67-e65232ab9348)
 
 
