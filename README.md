@@ -82,4 +82,26 @@ y = np.log1p(y)
 #### After Applying log <br/> <br/> <br/>
 ![image](https://github.com/user-attachments/assets/ec31b157-b33c-4c48-8b67-e65232ab9348)
 
+## SPLIT THE DATA
+```
+##split the data  into train and test
+
+X = df[:len(train)]
+X_test = df[len(train):]
+```
+## K FOLD CROSS VALIDATION <br/>
+The kfold cross validation split the data into 5 folds and performs 5 iterations
+```
+def get_oof_predictions(model,X,y):
+    oof_preds = np.zeros(X.shape[0])
+    kf = KFold(n_splits = 5,shuffle=True, random_state=42)
+    for train_idx,val_idx in kf.split(X):
+        X_train,X_val = X.iloc[train_idx],X.iloc[val_idx]
+        y_train,y_val = y.iloc[train_idx],y.iloc[val_idx]
+        model.fit(X_train, y_train)
+        oof_preds[val_idx] = model.predict(X_val)
+    return oof_preds
+```
+
+
 
