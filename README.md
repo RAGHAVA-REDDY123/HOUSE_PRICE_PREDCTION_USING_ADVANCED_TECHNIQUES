@@ -71,15 +71,15 @@ df['TotalPorchSF'] = df['OpenPorchSF'] + df['3SsnPorch'] + df['EnclosedPorch'] +
 df['TotalArea'] = df['GrLivArea'] + df['TotalSF'] + df['TotalPorchSF']
  
 ```
+### IDENTIFYING TARGET VARIABLE STRUCTURE & DISTRIBUTION <br/>
 The target variable is transformed into its equivalent logarithmic form <br/>
-
-Before applying log <br/>
-![image](https://github.com/user-attachments/assets/ec31b157-b33c-4c48-8b67-e65232ab9348)
-
 ```
 y = np.log1p(y)
 ```
-After Applying log
+#### Before applying log <br/>
+![image](https://github.com/user-attachments/assets/ec31b157-b33c-4c48-8b67-e65232ab9348)
+
+#### After Applying log <br/> <br/> <br/>
 ![image](https://github.com/user-attachments/assets/080617c9-5746-42ad-a50f-c69a1d5204f3)
 
 
