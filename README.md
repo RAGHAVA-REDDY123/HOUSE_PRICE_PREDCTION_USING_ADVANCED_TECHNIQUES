@@ -32,5 +32,49 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler,LabelEncoder
 ```
+### DATA PROCESSING <br/>
+```
+train = pd.read_csv('train.csv')
+test = pd.read_csv('test.csv')
+##concatenate train and test data
+df = pd.concat(([train.drop('SalePrice', axis=1), test]), axis=0)
+```
+Here the train and test data is concatenated into single df by removing the target variable in the train data <br/>
 
+```
+## Handle missing values
+categorical_cols = df.select_dtypes(include=['object']).columns
+numerical_cols = df.select_dtypes(exclude=['object']).columns
+
+# Fill missing values for categorical columns with mode
+for col in categorical_cols:
+    df[col].fillna(df[col].mode()[0], inplace=True)
+
+# Fill missing values for numerical columns with mean
+for col in numerical_cols:
+    df[col].fillna(df[col].mean(), inplace=True)
+```
+```
+##label encoding of categorical features
+for col in categorical_cols:
+    le = LabelEncoder()
+    df[col] = le.fit_transform(df[col])
+```
+Here the categorical cols are filled with the most repeating value and numerical cols are filled with their mean <br/>
+
+### FEATURE ENGINEERING <br/>
+
+```
+##feature engineering
+df['TotalSF'] = df['TotalBsmtSF'] + df['1stFlrSF'] + df['2ndFlrSF']
+df['TotalBathrooms'] = df['FullBath'] + df['HalfBath'] + df['BsmtFullBath'] + df['BsmtHalfBath']
+df['TotalPorchSF'] = df['OpenPorchSF'] + df['3SsnPorch'] + df['EnclosedPorch'] + df['ScreenPorch'] + df['WoodDeckSF']
+df['TotalArea'] = df['GrLivArea'] + df['TotalSF'] + df['TotalPorchSF']
+ 
+```
+Performed Feature Extraction by extracting new features from the given features <br/>
+```
+y = np.log1p(y)
+```
+The target variable is transformed into its equivalent logarithmic form <br/>
 
