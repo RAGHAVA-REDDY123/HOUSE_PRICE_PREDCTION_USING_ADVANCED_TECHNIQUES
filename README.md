@@ -33,14 +33,14 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.preprocessing import StandardScaler,LabelEncoder
 ```
 ### DATA PROCESSING <br/>
+Here the train and test data is concatenated into single df by removing the target variable in the train data <br/>
 ```
 train = pd.read_csv('train.csv')
 test = pd.read_csv('test.csv')
 ##concatenate train and test data
 df = pd.concat(([train.drop('SalePrice', axis=1), test]), axis=0)
 ```
-Here the train and test data is concatenated into single df by removing the target variable in the train data <br/>
-
+Here the categorical cols are filled with the most repeating value and numerical cols are filled with their mean <br/>
 ```
 ## Handle missing values
 categorical_cols = df.select_dtypes(include=['object']).columns
@@ -60,10 +60,9 @@ for col in categorical_cols:
     le = LabelEncoder()
     df[col] = le.fit_transform(df[col])
 ```
-Here the categorical cols are filled with the most repeating value and numerical cols are filled with their mean <br/>
 
 ### FEATURE ENGINEERING <br/>
-
+Performed Feature Extraction by extracting new features from the given features <br/>
 ```
 ##feature engineering
 df['TotalSF'] = df['TotalBsmtSF'] + df['1stFlrSF'] + df['2ndFlrSF']
@@ -72,9 +71,9 @@ df['TotalPorchSF'] = df['OpenPorchSF'] + df['3SsnPorch'] + df['EnclosedPorch'] +
 df['TotalArea'] = df['GrLivArea'] + df['TotalSF'] + df['TotalPorchSF']
  
 ```
-Performed Feature Extraction by extracting new features from the given features <br/>
+The target variable is transformed into its equivalent logarithmic form <br/>
+
 ```
 y = np.log1p(y)
 ```
-The target variable is transformed into its equivalent logarithmic form <br/>
 
