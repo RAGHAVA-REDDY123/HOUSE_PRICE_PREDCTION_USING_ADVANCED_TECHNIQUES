@@ -102,6 +102,17 @@ def get_oof_predictions(model,X,y):
         oof_preds[val_idx] = model.predict(X_val)
     return oof_preds
 ```
+In machine learning, OOF (Out-Of-Fold) predictions are used to evaluate a model's performance during cross-validation, while ensuring that each prediction is made on unseen data. This helps prevent overfitting and gives a more reliable estimation of model performance. <br/>
 
+⚙️ How It Works
+#### 1.Initialize:
+oof_preds is a NumPy array of zeros to store predictions for every data point.
+
+#### 2.K-Fold Splitting:
+KFold(n_splits=5) divides the data into 5 parts. In each iteration 4 folds are used for training.1 fold is used for validation (i.e., out-of-fold).
+
+#### 3.Training & Prediction:
+
+The model is trained only on the training set.Predictions are made on the validation set only (unseen data for the model).These predictions are stored in the appropriate index of oof_preds.The function returns the complete OOF predictions array, which can be used for:Model blending /stacking and Calculating cross-validated metrics like RMSE, accuracy, etc.
 
 
