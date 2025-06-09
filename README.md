@@ -1,4 +1,5 @@
 # HOUSE_PRICE_PREDCTION_USING_ADVANCED_TECHNIQUES <br/>
+## THIS PROJECT IS MADE AS A PART OF KAGGLE COMPETITION HOUSE PRICE PREDICTION:ADVANCED REGRESSION TECHNIQUES AND PLACED AMONG TOP 100 POSITION OUT OF 5000+ PARTICIPANTS
 ## PROJECT STRUCTURE <br/>
 ---1) _IMPORT NECESSARY LIBRARIES_ <br/>
 ---2) _IDENTIFYING & HANDLING MISSING VALUES_ <br/>
@@ -177,6 +178,7 @@ evaluate_model(y, meta_model.predict(stacked_train))
 ```
 Evaluates the final meta model on stacked_data(training data) <br/>
 
+# SUBMISSION:submission4.csv file contains my predictions on the given test data
 ```
 #submission
 submission = pd.DataFrame({
