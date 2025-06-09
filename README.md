@@ -115,6 +115,7 @@ KFold(n_splits=5) divides the data into 5 parts. In each iteration 4 folds are u
 
 The model is trained only on the training set.Predictions are made on the validation set only (unseen data for the model).These predictions are stored in the appropriate index of oof_preds.The function returns the complete OOF predictions array, which can be used for:Model blending /stacking and Calculating cross-validated metrics like RMSE, accuracy, etc.
 
+# GET OOF PREDS ON EACH MODEL <br/>
 ```
 cat_oof = get_oof_predictions(cat_model, X, y)
 xgb_oof = get_oof_predictions(xgb_model, X, y)
@@ -123,22 +124,28 @@ rf_oof = get_oof_predictions(rf_model, X, y)
 🔸 Generate out-of-fold predictions for each base model using 5-fold cross-validation.<br/>
 🔸 Each element in *_oof is the prediction made only on unseen data — very useful for training a fair meta-model.<br/>
 
+# STACKING THE PREDICTIONS <br/>
 ```
 stacked_train = np.column_stack((cat_oof, xgb_oof, rf_oof))
 ```
 Stack the OOF predictions into a new feature matrix of shape (n_samples, 3), where each column is the prediction from one base model. <br/>
 
+# TRAINING A META MODEL <br/>
 ```
 meta_model = Ridge(alpha=0.01)
 meta_model.fit(stacked_train, y)
 ```
  Train a meta-model (Ridge regression) on the stacked predictions to learn how to best combine them. <br/>
+
+# TRAINING ALL BASE MODELS <br/>
  ```
 cat_model.fit(X, y)
 xgb_model.fit(X, y)
 rf_model.fit(X, y)
 ```
 Now that stacking training is complete, we retrain all base models on full data to get their best versions ready for test-time predictions. <br/>
+
+# GENERATE TEST PREDS ON EACH BASE MODEL <br/>
 ```
 cat_test_preds = cat_model.predict(X_test)
 xgb_test_preds = xgb_model.predict(X_test)
@@ -146,16 +153,19 @@ rf_test_preds = rf_model.predict(X_test)
 ```
 Generate test predictions using the fully trained base models. <br/>
 
+# STACKING THE TEST PREDS ON OF EACH BASED MODEL <br/>
 ```
 stacked_test = np.column_stack((cat_test_preds, xgb_test_preds, rf_test_preds))
 final_preds = meta_model.predict(stacked_test)
 ```
  Stack the test predictions and feed them into the trained meta-model to get final stacked predictions. <br/>
+# FINAL PREDS <br/>
 ```
 final_preds = np.expm1(final_preds)
 ```
 Finally, convert the predictions back to the original scale using inverse transformation (np.expm1) because your target y was likely log transformed earlier (e.g., using np.log1p to stabilize variance or normalize skew). <br/>
 
+# EVALUATE MODEL ON TRAINING DATA <br/>
 ```
 def evaluate_model(y_true, y_pred):
     mse = mean_squared_error(y_true, y_pred)
